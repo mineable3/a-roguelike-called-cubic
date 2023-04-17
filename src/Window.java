@@ -4,6 +4,8 @@ import java.awt.MenuBar;
 
 import javax.swing.*;
 
+import src.enemies.BasicEnemy;
+
 
 public class Window extends JFrame{
 
@@ -13,6 +15,8 @@ public class Window extends JFrame{
     public static Player p = new Player(Constants.playerStartingX, Constants.playerStartingY);
     public static Border b = new Border();
     public static Keyboard keyboard = new Keyboard();
+    public static BasicEnemy be = new BasicEnemy();
+
 
 
 
@@ -26,8 +30,15 @@ public class Window extends JFrame{
         this.setMenuBar(new MenuBar());
         this.getMenuBar().setName("test");
         this.getContentPane().setBackground(new Color(54, 60, 79));
+
+        //FlatLightLaf.setup(); //setting the look and feel
+        this.setUndecorated(true);
+        this.getRootPane().setWindowDecorationStyle(JRootPane.PLAIN_DIALOG);
+
         this.add(keyboard);
         this.add(p);
+        //this.add(be);
+
         this.setVisible(true);
     }
 
