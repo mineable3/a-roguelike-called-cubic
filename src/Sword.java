@@ -5,7 +5,7 @@ import javax.swing.*;
 public class Sword extends JLabel{
 
 
-    private double x, y;
+    private double x = Constants.playerStartingX, y = Constants.playerStartingY;
 
     private ImageIcon icon = new ImageIcon("assets/SwordSkin.png");//where the sword picture is located
     private Image image = icon.getImage();
@@ -46,18 +46,18 @@ public class Sword extends JLabel{
 
 
 
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g2d = (Graphics2D) g;
-
-        //rotating the sword around its center
-        g2d.translate(this.getWidth() / 2, this.getHeight() / 2);
-        g2d.rotate(theta + ((Math.PI)/2));//in radians
-        g2d.translate(-image.getWidth(this) / 2, -image.getHeight(this) / 2);
-
-        g2d.drawImage(image, 0, 0, null);
-    }
+    //@Override
+    //public void paintComponent(Graphics g) {
+    //    super.paintComponent(g);
+    //    g2d = (Graphics2D) g;
+//
+    //    //rotating the sword around its center
+    //    g2d.translate(this.getWidth() / 2, this.getHeight() / 2);
+    //    g2d.rotate(theta + ((Math.PI)/2));//in radians
+    //    g2d.translate(-image.getWidth(this) / 2, -image.getHeight(this) / 2);
+//
+    //    g2d.drawImage(image, 0, 0, null);
+    //}
 
 
     public double getTheta() {

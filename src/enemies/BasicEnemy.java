@@ -7,8 +7,6 @@ import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import src.Constants;
-import src.Player;
 
 public class BasicEnemy extends JLabel implements Enemy{
 
@@ -19,8 +17,7 @@ public class BasicEnemy extends JLabel implements Enemy{
 
     private Rectangle bounds = new Rectangle(20, 20);
 
-    private ImageIcon imageIcon = new ImageIcon("assets/BasicEnemy.png");
-    private Image image = imageIcon.getImage();
+    
     //public static Player p = new Player(Constants.playerStartingX, Constants.playerStartingY);
 
 
@@ -28,18 +25,20 @@ public class BasicEnemy extends JLabel implements Enemy{
     public BasicEnemy() {
         this.setLocation(x, y);
         this.setBounds(x, y, 20, 20);
+        //this.setLayout(null);
         //this.add(p);
         this.setOpaque(false);
 
     }
 
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    
 
-        g.drawImage(image, 0, 0, null);
+
+    public void paint() {//This is where the graphic is painted to the screen
+        repaint();
     }
 
+    
     @Override
     public Rectangle getBounds() {
         return bounds;

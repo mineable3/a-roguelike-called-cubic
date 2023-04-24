@@ -1,5 +1,6 @@
 package src;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.MenuBar;
 
 import javax.swing.*;
@@ -12,33 +13,32 @@ public class Window extends JFrame{
     private static boolean playing = true;
 
 
-    public static Player p = new Player(Constants.playerStartingX, Constants.playerStartingY);
     public static Border b = new Border();
-    public static Keyboard keyboard = new Keyboard();
-    public static BasicEnemy be = new BasicEnemy();
-
+    public static Board board = new Board();
 
 
 
     public Window() {
+        //h.add(be, Integer.valueOf(1));
+        //this.setContentPane(h);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(Constants.frameWidth, Constants.frameHeight);
         this.setLocation(Constants.frameX, Constants.frameY);
         this.setResizable(false);
         this.setTitle("fun video game");
-        this.setMenuBar(new MenuBar());
-        this.getMenuBar().setName("test");
         this.getContentPane().setBackground(new Color(54, 60, 79));
 
         //FlatLightLaf.setup(); //setting the look and feel
-        this.setUndecorated(true);
-        this.getRootPane().setWindowDecorationStyle(JRootPane.PLAIN_DIALOG);
+        //this.setUndecorated(true);
+        //this.getRootPane().setWindowDecorationStyle(JRootPane.PLAIN_DIALOG);
 
-        this.add(keyboard);
-        this.add(p);
+
+        //this.add(board);
+        this.add(board);
         //this.add(be);
 
+        this.setLayout(null);
         this.setVisible(true);
     }
 
@@ -72,38 +72,38 @@ public class Window extends JFrame{
 
 
         //If a single key is held down (cardinal directions)
-        if(keyboard.getWHeld() && !keyboard.getDHeld() && !keyboard.getAHeld()) {//W
-            p.changeY(-p.getPlayerSpeed());
+        if(board.keyboard.getWHeld() && !board.keyboard.getDHeld() && !board.keyboard.getAHeld()) {//W
+            board.p.changeY(-board.p.getPlayerSpeed());
         }
-        if(keyboard.getSHeld() && !keyboard.getDHeld() && !keyboard.getAHeld()) {//S
-            p.changeY(p.getPlayerSpeed());
+        if(board.keyboard.getSHeld() && !board.keyboard.getDHeld() && !board.keyboard.getAHeld()) {//S
+            board.p.changeY(board.p.getPlayerSpeed());
         }
-        if(keyboard.getAHeld() && !keyboard.getWHeld() && !keyboard.getSHeld()) {//A
-            p.changeX(-p.getPlayerSpeed());
+        if(board.keyboard.getAHeld() && !board.keyboard.getWHeld() && !board.keyboard.getSHeld()) {//A
+            board.p.changeX(-board.p.getPlayerSpeed());
         }
-        if(keyboard.getDHeld() && !keyboard.getWHeld() && !keyboard.getSHeld()) {//D
-            p.changeX(p.getPlayerSpeed());
+        if(board.keyboard.getDHeld() && !board.keyboard.getWHeld() && !board.keyboard.getSHeld()) {//D
+            board.p.changeX(board.p.getPlayerSpeed());
         }
 
         //If two keys are held down (diagonals)
-        if(keyboard.getWHeld() && keyboard.getDHeld()) {
-            p.changeY((int)Math.round(-p.getPlayerSpeed() * .707));//W
-            p.changeX((int)Math.round(p.getPlayerSpeed() * .707));//D
+        if(board.keyboard.getWHeld() && board.keyboard.getDHeld()) {
+            board.p.changeY((int)Math.round(-board.p.getPlayerSpeed() * .71));//W
+            board.p.changeX((int)Math.round(board.p.getPlayerSpeed() * .71));//D
         }
-        if(keyboard.getWHeld() && keyboard.getAHeld()) {
-            p.changeY((int)Math.round(-p.getPlayerSpeed() * .707));//W
-            p.changeX((int)Math.round(-p.getPlayerSpeed() * .707));//A
+        if(board.keyboard.getWHeld() && board.keyboard.getAHeld()) {
+            board.p.changeY((int)Math.round(-board.p.getPlayerSpeed() * .71));//W
+            board.p.changeX((int)Math.round(-board.p.getPlayerSpeed() * .71));//A
         }
-        if(keyboard.getSHeld() && keyboard.getDHeld()) {
-            p.changeY((int)Math.round(p.getPlayerSpeed() * .707));//S
-            p.changeX((int)Math.round(p.getPlayerSpeed() * .707));//D
+        if(board.keyboard.getSHeld() && board.keyboard.getDHeld()) {
+            board.p.changeY((int)Math.round(board.p.getPlayerSpeed() * .71));//S
+            board.p.changeX((int)Math.round(board.p.getPlayerSpeed() * .71));//D
         }
-        if(keyboard.getSHeld() && keyboard.getAHeld()) {
-            p.changeY((int)Math.round(p.getPlayerSpeed() * .707));//S
-            p.changeX((int)Math.round(-p.getPlayerSpeed() * .707));//A
+        if(board.keyboard.getSHeld() && board.keyboard.getAHeld()) {
+            board.p.changeY((int)Math.round(board.p.getPlayerSpeed() * .71));//S
+            board.p.changeX((int)Math.round(-board.p.getPlayerSpeed() * .71));//A
         }
 
-        p.s.orbit(p.getXValue(), p.getYValue());
+        board.p.s.orbit(board.p.getXValue(), board.p.getYValue());
     }
 
 
@@ -111,15 +111,22 @@ public class Window extends JFrame{
     public static void swingSword() {
 
         //holding left
-        if(keyboard.getLeftHeld() && !keyboard.getRightHeld()) {
-            p.s.changeTheta(-Math.PI/90);
-            p.s.orbit(p.getXValue(), p.getYValue());
+        if(board.keyboard.getLeftHeld() && !board.keyboard.getRightHeld()) {
+            board.p.s.changeTheta(-Math.PI/90);
+            board.p.s.orbit(board.p.getXValue(), board.p.getYValue());
         }
 
         //holding right
-        if(keyboard.getRightHeld() && !keyboard.getLeftHeld()) {
-            p.s.changeTheta(Math.PI/90);
-            p.s.orbit(p.getXValue(), p.getYValue());
+        if(board.keyboard.getRightHeld() && !board.keyboard.getLeftHeld()) {
+            board.p.s.changeTheta(Math.PI/90);
+            board.p.s.orbit(board.p.getXValue(), board.p.getYValue());
         }
+    }
+
+
+
+
+    public static void moveEnemy() {
+        board.p.getLocation();
     }
 }

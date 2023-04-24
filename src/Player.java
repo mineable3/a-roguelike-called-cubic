@@ -8,7 +8,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class Player extends JPanel {
+public class Player extends JLabel{
 
 
     private int x = 100;
@@ -41,20 +41,20 @@ public class Player extends JPanel {
         repaint();
     }
 
-    public void paintComponent(Graphics g) {
-        //This is where the graphic is 'manufactured'
-        super.paintComponent(g);
-        try {
-            g.drawImage((Image) ImageIO.read(new File(
-                "C:/Users/emmet/Desktop/JavaProjects/keyListener/assets/PlayerSkin.png")), 
-                (int)Math.round(x), 
-                (int)Math.round(y), 
-                getFocusCycleRootAncestor());
-
-        } catch (IOException e) {}
- 
-    }
-
+    //public void paintComponent(Graphics g) {
+    //    //This is where the graphic is 'manufactured'
+    //    super.paintComponent(g);
+    //    try {
+    //        g.drawImage((Image) ImageIO.read(new File(
+    //            "C:/Users/emmet/Desktop/JavaProjects/keyListener/assets/PlayerSkin.png")), 
+    //            (int)Math.round(x), 
+    //            (int)Math.round(y), 
+    //            getFocusCycleRootAncestor());
+//
+    //    } catch (IOException e) {}
+ //
+    //}
+//
 
 
 

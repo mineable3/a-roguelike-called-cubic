@@ -10,7 +10,6 @@ public class Border extends JPanel{
     public Border() {
         this.setVisible(true);
         this.setLayout(new BorderLayout());
-        this.add(Window.p);
     }
 
     public void paint() {//This is where the graphic is painted to the screen
