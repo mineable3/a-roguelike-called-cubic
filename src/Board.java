@@ -52,7 +52,7 @@ public class Board extends JPanel {
                 p.getYValue(),
                 getFocusCycleRootAncestor());
 
-                g.drawImage(beImage, 0, 0, null);
+                g.drawImage(beImage, 100, 100, null);
 
 
             //Sword graphics

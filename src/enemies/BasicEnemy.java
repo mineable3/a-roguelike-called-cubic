@@ -31,7 +31,7 @@ public class BasicEnemy extends JLabel implements Enemy{
 
     }
 
-    
+
 
 
     public void paint() {//This is where the graphic is painted to the screen
