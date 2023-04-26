@@ -61,9 +61,9 @@ public class Board extends JPanel {
             //rotating the sword around its center
             g2d.translate(p.s.getWidth() / 2, p.s.getHeight() / 2);
             g2d.rotate(p.s.getTheta() + ((Math.PI)/2));//in radians
-            g2d.translate(-p.s.getWidth() / 2, -p.s.getHeight() / 2);
+            g2d.translate(-image.getWidth(p.s) / 2, -image.getHeight(p.s) / 2);
 
-            g2d.drawImage(image, p.getXValue(), p.getYValue(), null);
+            g2d.drawImage(image, 500, 500, null);
             } catch (IOException e) {}
     }
 

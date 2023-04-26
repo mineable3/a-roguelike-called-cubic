@@ -103,7 +103,6 @@ public class Window extends JFrame{
             board.p.changeX((int)Math.round(-board.p.getPlayerSpeed() * .71));//A
         }
 
-        board.p.s.orbit(board.p.getXValue(), board.p.getYValue());
     }
 
 
@@ -113,14 +112,14 @@ public class Window extends JFrame{
         //holding left
         if(board.keyboard.getLeftHeld() && !board.keyboard.getRightHeld()) {
             board.p.s.changeTheta(-Math.PI/90);
-            board.p.s.orbit(board.p.getXValue(), board.p.getYValue());
         }
 
         //holding right
         if(board.keyboard.getRightHeld() && !board.keyboard.getLeftHeld()) {
             board.p.s.changeTheta(Math.PI/90);
-            board.p.s.orbit(board.p.getXValue(), board.p.getYValue());
         }
+
+        board.p.s.orbit(board.p.getXValue(), board.p.getYValue());
     }
 
 

@@ -5,7 +5,7 @@ import javax.swing.*;
 public class Sword extends JLabel{
 
 
-    private double x = Constants.playerStartingX, y = Constants.playerStartingY;
+    private double x, y;
 
     private ImageIcon icon = new ImageIcon("assets/SwordSkin.png");//where the sword picture is located
     private Image image = icon.getImage();
