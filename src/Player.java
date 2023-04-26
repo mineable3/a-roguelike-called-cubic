@@ -106,12 +106,10 @@ public class Player extends JLabel{
 //=================================Moving the character around======================================================================
     public void changeX(int amount) {
         x += amount;
-        s.moveCoords(x, y);
     }
 
     public void changeY(int amount) {
         y += amount;
-        s.moveCoords(x, y);
     }
 
     //NOT USED ANYWHERE

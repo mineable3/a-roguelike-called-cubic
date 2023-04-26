@@ -52,6 +52,8 @@ public class Window extends JFrame{
             movePlayer();
             swingSword();
             this.repaint();
+            board.p.s.orbit(board.p.getXValue(), board.p.getYValue());
+
             sleeep(10);
         }
     }

@@ -71,4 +71,13 @@ public class Sword extends JLabel{
     public void changeTheta(double amountToAdd) {
         theta += amountToAdd;
     }
+
+
+    public double getXValue() {
+        return x;
+    }
+    
+    public double getYValue() {
+        return y;
+    }
 }

@@ -58,12 +58,15 @@ public class Board extends JPanel {
             //Sword graphics
             g2d = (Graphics2D) g;
 
-            //rotating the sword around its center
-            g2d.translate(p.s.getWidth() / 2, p.s.getHeight() / 2);
-            g2d.rotate(p.s.getTheta() + ((Math.PI)/2));//in radians
-            g2d.translate(-image.getWidth(p.s) / 2, -image.getHeight(p.s) / 2);
 
-            g2d.drawImage(image, 500, 500, null);
+            //BAD CODE!!!! once I commented out this code the sword worked but the sprite doesn't rotate anymore
+            //rotating the sword around its center
+            //g2d.translate(p.s.getWidth() / 2, p.s.getHeight() / 2);
+            //g2d.rotate(p.s.getTheta() + ((Math.PI / 2)));//in radians
+            //g2d.translate(-image.getWidth(p.s) / 2, -image.getHeight(p.s) / 2);
+
+            g2d.drawImage(image, (int) p.s.getXValue(), (int) p.s.getYValue(), null);
+
             } catch (IOException e) {}
     }
 
