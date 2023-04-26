@@ -1,10 +1,6 @@
 package src.enemies;
 
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Rectangle;
-
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 
@@ -12,7 +8,7 @@ public class BasicEnemy extends JLabel implements Enemy{
 
     private int x, y;
 
-    private int speed = 1;
+    private int speed = 2;
     private int hp = 10;
 
     private Rectangle bounds = new Rectangle(20, 20);
@@ -29,6 +25,12 @@ public class BasicEnemy extends JLabel implements Enemy{
         //this.add(p);
         this.setOpaque(false);
 
+    }
+
+    @Override
+    public void setLocation(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
 
@@ -62,5 +64,21 @@ public class BasicEnemy extends JLabel implements Enemy{
     @Override
     public void setSpeed(int inSpeed) {
         speed = inSpeed;
+    }
+
+    public int getXValue() {
+        return x;
+    }
+
+    public void setX(int inX) {
+        x = inX;
+    }
+
+    public int getYValue() {
+        return y;
+    }
+
+    public void setY(int inY) {
+        y = inY;
     }
 }

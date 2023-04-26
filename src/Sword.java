@@ -7,9 +7,6 @@ public class Sword extends JLabel{
 
     private double x, y;
 
-    private ImageIcon icon = new ImageIcon("assets/SwordSkin.png");//where the sword picture is located
-    private Image image = icon.getImage();
-    private Graphics2D g2d;
 
     private double theta = -Math.PI/2;//what determines the starting orientation of the sword
 
@@ -40,8 +37,11 @@ public class Sword extends JLabel{
         x = Math.round(x);//rounding to avoid any problems type casting
         y = Math.round(y);//rounding to avoid any problems type casting
 
+        x -= 10;//the offsets to spin the sword around the center of the player
+        y -= 10;//the offsets to spin the sword around the center of the player
 
-        this.setLocation((int)x - 10, (int)y - 10);//the offsets to spin the sword around the center of the player
+
+        this.setLocation((int)x, (int)y);//the offsets to spin the sword around the center of the player
     }
 
 

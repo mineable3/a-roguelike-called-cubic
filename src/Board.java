@@ -52,20 +52,22 @@ public class Board extends JPanel {
                 p.getYValue(),
                 getFocusCycleRootAncestor());
 
-                g.drawImage(beImage, 100, 100, null);
+            //Basic enemy graphics
+            g.drawImage(beImage, be.getXValue(), be.getYValue(), null);
 
 
             //Sword graphics
             g2d = (Graphics2D) g;
 
 
-            //BAD CODE!!!! once I commented out this code the sword worked but the sprite doesn't rotate anymore
+            //now works. idk what I changed, but it works now
             //rotating the sword around its center
-            //g2d.translate(p.s.getWidth() / 2, p.s.getHeight() / 2);
-            //g2d.rotate(p.s.getTheta() + ((Math.PI / 2)));//in radians
-            //g2d.translate(-image.getWidth(p.s) / 2, -image.getHeight(p.s) / 2);
+            g2d.translate(p.s.getWidth() / 2, p.s.getHeight() / 2);
+            g2d.rotate(p.s.getTheta() + ((Math.PI / 2)), p.s.getXValue(), p.s.getYValue());//in radians
+            g2d.translate(-image.getWidth(p.s) / 2, -image.getHeight(p.s) / 2);
 
             g2d.drawImage(image, (int) p.s.getXValue(), (int) p.s.getYValue(), null);
+            
 
             } catch (IOException e) {}
     }

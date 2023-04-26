@@ -50,6 +50,7 @@ public class Window extends JFrame{
 
         while(playing) {
             movePlayer();
+            moveEnemy();
             swingSword();
             this.repaint();
             board.p.s.orbit(board.p.getXValue(), board.p.getYValue());
@@ -89,20 +90,20 @@ public class Window extends JFrame{
 
         //If two keys are held down (diagonals)
         if(board.keyboard.getWHeld() && board.keyboard.getDHeld()) {
-            board.p.changeY((int)Math.round(-board.p.getPlayerSpeed() * .71));//W
-            board.p.changeX((int)Math.round(board.p.getPlayerSpeed() * .71));//D
+            board.p.changeY((int)Math.round(-board.p.getPlayerSpeed() /*  * .71 include to dampen speed on diaganols*/));//W
+            board.p.changeX((int)Math.round(board.p.getPlayerSpeed() /*  * .71 include to dampen speed on diaganols*/));//D
         }
         if(board.keyboard.getWHeld() && board.keyboard.getAHeld()) {
-            board.p.changeY((int)Math.round(-board.p.getPlayerSpeed() * .71));//W
-            board.p.changeX((int)Math.round(-board.p.getPlayerSpeed() * .71));//A
+            board.p.changeY((int)Math.round(-board.p.getPlayerSpeed() /*  * .71 include to dampen speed on diaganols*/));//W
+            board.p.changeX((int)Math.round(-board.p.getPlayerSpeed() /*  * .71 include to dampen speed on diaganols*/));//A
         }
         if(board.keyboard.getSHeld() && board.keyboard.getDHeld()) {
-            board.p.changeY((int)Math.round(board.p.getPlayerSpeed() * .71));//S
-            board.p.changeX((int)Math.round(board.p.getPlayerSpeed() * .71));//D
+            board.p.changeY((int)Math.round(board.p.getPlayerSpeed() /*  * .71 include to dampen speed on diaganols*/));//S
+            board.p.changeX((int)Math.round(board.p.getPlayerSpeed() /*  * .71 include to dampen speed on diaganols*/));//D
         }
         if(board.keyboard.getSHeld() && board.keyboard.getAHeld()) {
-            board.p.changeY((int)Math.round(board.p.getPlayerSpeed() * .71));//S
-            board.p.changeX((int)Math.round(-board.p.getPlayerSpeed() * .71));//A
+            board.p.changeY((int)Math.round(board.p.getPlayerSpeed() /*  * .71 include to dampen speed on diaganols*/));//S
+            board.p.changeX((int)Math.round(-board.p.getPlayerSpeed() /*  * .71 include to dampen speed on diaganols*/));//A
         }
 
     }
@@ -128,6 +129,15 @@ public class Window extends JFrame{
 
 
     public static void moveEnemy() {
-        board.p.getLocation();
+        int xDiff = board.p.getXValue() - board.be.getXValue();
+        int yDiff = board.p.getYValue() - board.be.getYValue();
+
+        int xHolder = (int) Math.round(xDiff * (board.be.getSpeed() / Math.sqrt((xDiff * xDiff) + (yDiff * yDiff))) + board.be.getXValue());
+        int yHolder = (int) Math.round(yDiff * (board.be.getSpeed() / Math.sqrt((xDiff * xDiff) + (yDiff * yDiff))) + board.be.getYValue());
+        
+        System.out.println("X: " + xHolder);
+        System.out.println("Y: " + yHolder);
+
+        board.be.setLocation(xHolder, yHolder);
     }
 }

@@ -14,7 +14,7 @@ public class Player extends JLabel{
     private int x = 100;
     private int y = 100;
 
-    private  int playerSpeed = 2;
+    private  int playerSpeed = 4;
 
     double theta;
 
