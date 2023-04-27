@@ -7,25 +7,25 @@ import javax.swing.JLabel;
 public class BasicEnemy extends JLabel implements Enemy{
 
     private int x, y;
+    private int width = 20, height = 20;
 
     private int speed = 2;
     private int hp = 10;
 
-    private Rectangle bounds = new Rectangle(20, 20);
+    private boolean isAlive = true;
 
-    
-    //public static Player p = new Player(Constants.playerStartingX, Constants.playerStartingY);
+    private Rectangle hitBox = new Rectangle(x, y, width, height);
+
 
 
 
     public BasicEnemy() {
         this.setLocation(x, y);
         this.setBounds(x, y, 20, 20);
-        //this.setLayout(null);
-        //this.add(p);
         this.setOpaque(false);
-
     }
+
+
 
     @Override
     public void setLocation(int x, int y) {
@@ -40,11 +40,12 @@ public class BasicEnemy extends JLabel implements Enemy{
         repaint();
     }
 
-    
-    @Override
-    public Rectangle getBounds() {
-        return bounds;
+
+    public Rectangle getHitBox() {
+        hitBox.setLocation(x, y);
+        return hitBox;
     }
+
 
     @Override
     public void setHP(int newHP) {
@@ -80,5 +81,13 @@ public class BasicEnemy extends JLabel implements Enemy{
 
     public void setY(int inY) {
         y = inY;
+    }
+
+    public boolean getIsAlive() {
+        return isAlive;
+    }
+
+    public void setIsAlive(boolean isAlive) {
+        this.isAlive = isAlive;
     }
 }

@@ -1,5 +1,7 @@
 package src;
-import java.awt.*;
+import java.awt.Point;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 public class Sword extends JLabel{
@@ -10,19 +12,37 @@ public class Sword extends JLabel{
 
     private double theta = -Math.PI/2;//what determines the starting orientation of the sword
 
+    public ArrayList<Point> swordCollisionPoints = new ArrayList<Point>(2);
+
 
 
     public Sword() {
         this.setLocation(Constants.playerStartingX, Constants.playerStartingY);
         this.setBounds((int)x, (int)y, 40, 40);
+        swordCollisionPoints.add(new Point((int)x - 0, (int)y - 0));
+        //swordCollisionPoints.add(new Point((int)x - 20, (int)y - 25));
+        setCollisionPoints();
     }
 
+
+    private void setCollisionPoints() {
+        swordCollisionPoints.set(0, new Point((int)x - 0, (int)y - 0));
+        //swordCollisionPoints.set(1, new Point((int)x - 20, (int)y - 25));
+    }
+
+    public Point getSwordHitPoints(int index) {
+        setCollisionPoints();
+        return swordCollisionPoints.get(index);
+    }
 
     public void moveCoords(int x, int y) {
         this.x = x;
         this.y = y;
        // this.setLocation(this.x + 6, this.y - 40);
     }
+
+
+
 
     public void orbit(int inX, int inY) {
         x = Math.cos(theta);//the coordinate around the unit circle
@@ -46,18 +66,6 @@ public class Sword extends JLabel{
 
 
 
-    //@Override
-    //public void paintComponent(Graphics g) {
-    //    super.paintComponent(g);
-    //    g2d = (Graphics2D) g;
-//
-    //    //rotating the sword around its center
-    //    g2d.translate(this.getWidth() / 2, this.getHeight() / 2);
-    //    g2d.rotate(theta + ((Math.PI)/2));//in radians
-    //    g2d.translate(-image.getWidth(this) / 2, -image.getHeight(this) / 2);
-//
-    //    g2d.drawImage(image, 0, 0, null);
-    //}
 
 
     public double getTheta() {

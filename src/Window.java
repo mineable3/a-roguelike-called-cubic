@@ -1,11 +1,12 @@
 package src;
 import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.MenuBar;
+import java.awt.Point;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
 import src.enemies.BasicEnemy;
+
 
 
 public class Window extends JFrame{
@@ -52,8 +53,8 @@ public class Window extends JFrame{
             movePlayer();
             moveEnemy();
             swingSword();
+            playerEnemyCollision();
             this.repaint();
-            board.p.s.orbit(board.p.getXValue(), board.p.getYValue());
 
             sleeep(10);
         }
@@ -114,12 +115,12 @@ public class Window extends JFrame{
 
         //holding left
         if(board.keyboard.getLeftHeld() && !board.keyboard.getRightHeld()) {
-            board.p.s.changeTheta(-Math.PI/90);
+            board.p.s.changeTheta(-Math.PI/30);
         }
 
         //holding right
         if(board.keyboard.getRightHeld() && !board.keyboard.getLeftHeld()) {
-            board.p.s.changeTheta(Math.PI/90);
+            board.p.s.changeTheta(Math.PI/30);
         }
 
         board.p.s.orbit(board.p.getXValue(), board.p.getYValue());
@@ -134,10 +135,31 @@ public class Window extends JFrame{
 
         int xHolder = (int) Math.round(xDiff * (board.be.getSpeed() / Math.sqrt((xDiff * xDiff) + (yDiff * yDiff))) + board.be.getXValue());
         int yHolder = (int) Math.round(yDiff * (board.be.getSpeed() / Math.sqrt((xDiff * xDiff) + (yDiff * yDiff))) + board.be.getYValue());
-        
-        System.out.println("X: " + xHolder);
-        System.out.println("Y: " + yHolder);
+
 
         board.be.setLocation(xHolder, yHolder);
+    }
+
+
+
+
+
+
+    public static void playerEnemyCollision(/*Player p, BasicEnemy be*/) {
+
+        for(int i = board.p.s.swordCollisionPoints.size(); i > 0; i--) {
+
+            if (board.be.getHitBox().contains(board.p.s.getSwordHitPoints(i - 1))) {
+                board.be.setIsAlive(false);
+                resetEnemy(board.be);
+            }
+        }
+    }
+
+
+
+    public static void resetEnemy(BasicEnemy be) {
+        be.setLocation(600, 600);
+        be.setIsAlive(true);
     }
 }

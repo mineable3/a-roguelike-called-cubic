@@ -2,11 +2,7 @@ package src;
 //this class is the player graphic
 
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 
 public class Player extends JLabel{
 
@@ -16,7 +12,7 @@ public class Player extends JLabel{
 
     private  int playerSpeed = 4;
 
-    double theta;
+    private double theta;
 
     public final Sword s = new Sword();
 
@@ -41,20 +37,6 @@ public class Player extends JLabel{
         repaint();
     }
 
-    //public void paintComponent(Graphics g) {
-    //    //This is where the graphic is 'manufactured'
-    //    super.paintComponent(g);
-    //    try {
-    //        g.drawImage((Image) ImageIO.read(new File(
-    //            "C:/Users/emmet/Desktop/JavaProjects/keyListener/assets/PlayerSkin.png")), 
-    //            (int)Math.round(x), 
-    //            (int)Math.round(y), 
-    //            getFocusCycleRootAncestor());
-//
-    //    } catch (IOException e) {}
- //
-    //}
-//
 
 
 
@@ -104,6 +86,7 @@ public class Player extends JLabel{
 
 
 //=================================Moving the character around======================================================================
+
     public void changeX(int amount) {
         x += amount;
     }
