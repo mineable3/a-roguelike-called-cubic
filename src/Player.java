@@ -10,11 +10,9 @@ public class Player extends JLabel{
     private int x = 100;
     private int y = 100;
 
-    private  int playerSpeed = 4;
+    private int playerSpeed = 4;
 
-    private double theta;
-
-    public final Sword s = new Sword();
+    public final Sword s = new Sword(x, y);
 
 
 //==============================Constructors=====================================================================================

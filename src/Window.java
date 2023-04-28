@@ -2,6 +2,7 @@ package src;
 import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.*;
 
@@ -56,7 +57,7 @@ public class Window extends JFrame{
             playerEnemyCollision();
             this.repaint();
 
-            sleeep(10);
+            sleeep(20);
         }
     }
 
@@ -149,6 +150,8 @@ public class Window extends JFrame{
 
         for(int i = board.p.s.swordCollisionPoints.size(); i > 0; i--) {
 
+            board.p.s.setCollisionPoints(board.p.getXValue(), board.p.getYValue());
+
             if (board.be.getHitBox().contains(board.p.s.getSwordHitPoints(i - 1))) {
                 board.be.setIsAlive(false);
                 resetEnemy(board.be);
@@ -159,7 +162,45 @@ public class Window extends JFrame{
 
 
     public static void resetEnemy(BasicEnemy be) {
-        be.setLocation(600, 600);
+
+        //getting a new random number different from last time
+        double side = Math.random();
+        double location = Math.random();
+
+        //if the number is outside our JFrame keep looking until we find one that fits
+        while (side > .6) {
+            side = Math.random();
+        }
+
+        //if the number is outside our JFrame keep looking until we find one that fits
+        while (location > .6) {
+            location = Math.random();
+        }
+
+        location = Math.round(location * 100);
+
+        //TOP SIDE
+        if(side <= .15) {
+            be.setLocation(0, (int)location);
+        }
+
+        //LEFT SIDE
+        else if ((side <= .3) && (side > .15)) {
+            be.setLocation((int)location, 0);
+        }
+
+        //BOTTOM SIDE
+        else if ((side <= .45) && (side > .3)) {
+            be.setLocation((int)location, 600);
+        }
+
+        //RIGHT SIDE
+        else if (side >.45) {
+            be.setLocation(600, (int)location);
+        } else {
+            System.out.println("randomizing the enemies location went wrong");
+        }
+
         be.setIsAlive(true);
     }
 }

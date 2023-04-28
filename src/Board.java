@@ -1,5 +1,6 @@
 package src;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -55,6 +56,17 @@ public class Board extends JPanel {
             //Basic enemy graphics
             g.drawImage(beImage, be.getXValue(), be.getYValue(), null);
 
+            /* 
+            draws the points that act as a hitbox for the sword
+
+            g.setColor(new Color(0, 255, 0));
+            for(int i = p.s.swordCollisionPoints.size(); i > 0; i--) {
+                g.drawOval(
+                    (int) p.s.getSwordHitPoints(i-1).getX(),
+                    (int) p.s.getSwordHitPoints(i-1).getY(),
+                    5,
+                    5);
+            }*/
 
             //Sword graphics
             g2d = (Graphics2D) g;
@@ -67,6 +79,7 @@ public class Board extends JPanel {
             g2d.translate(-image.getWidth(p.s) / 2, -image.getHeight(p.s) / 2);
 
             g2d.drawImage(image, (int) p.s.getXValue(), (int) p.s.getYValue(), null);
+            
             
 
             } catch (IOException e) {}

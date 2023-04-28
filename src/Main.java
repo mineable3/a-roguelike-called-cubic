@@ -5,4 +5,7 @@ public class Main {
         Window w = new Window();
         w.gameLoop();
     }
+
+    //TODO arrow key moves sword shortest distance to the direction of the key
+    //TODO Make the enemy spawns at a different wall each time until all walls have been used and then reset
 }
