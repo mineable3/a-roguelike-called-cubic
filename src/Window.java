@@ -1,5 +1,11 @@
 package src;
 import java.awt.Color;
+import java.awt.ComponentOrientation;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.LayoutManager;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
@@ -29,9 +35,11 @@ public class Window extends JFrame{
         top = "top",
         bottom = "bottom";
 
+    private static GridBagConstraints constraints = new GridBagConstraints();
 
 
-    public static Border b = new Border();
+    
+
     public static Board board = new Board();
 
 
@@ -39,25 +47,91 @@ public class Window extends JFrame{
     public Window() {
         //h.add(be, Integer.valueOf(1));
         //this.setContentPane(h);
+        
+
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(Constants.frameWidth, Constants.frameHeight);
-        this.setLocation(Constants.frameX, Constants.frameY);
         this.setResizable(false);
         this.setTitle("fun video game");
-        this.getContentPane().setBackground(new Color(54, 60, 79));
+        //this.getContentPane().setBackground(new Color(0, 255, 255));
+
+
+        this.setUndecorated(true);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+
+
+        this.setLayout(new GridBagLayout());
+
+        System.out.println(this.getWidth());
+        System.out.println(this.getHeight());
+
+        this.setVisible(true);
+
+        Border leftBorder = new Border(this.getWidth(), this.getHeight());
+        Border rightBorder = new Border(this.getWidth(), this.getHeight());
+        Border bottomBorder = new Border(this.getWidth(), this.getHeight());
+        Border topBorder = new Border(this.getWidth(), this.getHeight());
+
+        this.setVisible(false);
+
+        //the left and right borders
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.gridheight = 2;
+        constraints.ipady = this.getHeight();
+        constraints.ipadx = (this.getWidth() - Constants.gameSize) / 2;
+        this.add(leftBorder, constraints);
+        
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 2;
+        constraints.gridy = 0;
+        constraints.gridheight = 2;
+        constraints.ipady = this.getHeight();
+        constraints.ipadx = (this.getWidth() - Constants.gameSize) / 2;
+        this.add(rightBorder, constraints);
+
+
+        //constraints.weighty = 1;
+        constraints.gridx = 1;
+        constraints.gridy = 0;
+        constraints.ipady = Constants.gameSize;
+        constraints.ipadx = Constants.gameSize;
+        this.add(board, constraints);
+
+        constraints.ipadx = 0;
+
+
+        //the bottom border which I might turn into a menu or inventory
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.anchor = GridBagConstraints.PAGE_END;
+        constraints.gridx = 1;
+        constraints.gridy = 1;
+        constraints.ipady = this.getHeight() - Constants.gameSize;
+        
+        this.add(bottomBorder, constraints);
+
+
+        //the bottom border which I might turn into a menu or inventory
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.anchor = GridBagConstraints.PAGE_START;
+        constraints.gridx = 1;
+        constraints.gridy = 1;
+        constraints.ipady = this.getHeight() - Constants.gameSize;
+        
+        this.add(topBorder, constraints);
 
         //FlatLightLaf.setup(); //setting the look and feel
-        //this.setUndecorated(true);
+        
         //this.getRootPane().setWindowDecorationStyle(JRootPane.PLAIN_DIALOG);
 
 
-        //this.add(board);
-        this.add(board);
-        //this.add(be);
 
-        this.setLayout(null);
         this.setVisible(true);
+
+        System.out.println(this.getWidth());
+        System.out.println(this.getHeight());
     }
 
 
@@ -205,7 +279,6 @@ public class Window extends JFrame{
             topSpawnable = false;
             sidesSpawnable.add(top);
             be.setLocation(0, (int)location);
-            System.out.println("TOP");
         }
 
         //LEFT SIDE
@@ -213,23 +286,20 @@ public class Window extends JFrame{
             leftSpawnable = false;
             sidesSpawnable.add(left);
             be.setLocation((int)location, 0);
-            System.out.println("LEFT");
         }
 
         //BOTTOM SIDE
         else if (((side <= .45) && (side > .3)) && bottomSpawnable) {
             bottomSpawnable = false;
             sidesSpawnable.add(bottom);
-            be.setLocation((int)location, 600);
-            System.out.println("BOTTOM");
+            be.setLocation((int)location, Constants.gameSize);
         }
 
         //RIGHT SIDE
         else if ((side >.45) && rightSpawnable) {
             rightSpawnable = false;
             sidesSpawnable.add(right);
-            be.setLocation(600, (int)location);
-            System.out.println("RIGHT");
+            be.setLocation(Constants.gameSize, (int)location);
         } else {
             System.out.println("randomizing the enemies location went wrong");
             playing = false;

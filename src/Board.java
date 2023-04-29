@@ -33,9 +33,9 @@ public class Board extends JPanel {
         this.add(keyboard);
         //this.add(be);
         this.add(p);
-        this.setLayout(null);
-        this.setBounds(0, 0, Constants.frameWidth, Constants.frameHeight);
-        this.setOpaque(false);
+        this.setBounds(0, 0, Constants.gameSize, Constants.gameSize);
+        this.setBackground(new Color(54, 60, 79));
+        this.setOpaque(true);
         this.setVisible(true);
         this.paint();
     }
