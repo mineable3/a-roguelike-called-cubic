@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.sound.midi.Soundbank;
 import javax.swing.*;
 
 import src.enemies.BasicEnemy;
@@ -13,6 +14,21 @@ import src.enemies.BasicEnemy;
 public class Window extends JFrame{
 
     private static boolean playing = true;
+
+    private static boolean
+        leftSpawnable = true,
+        rightSpawnable = true,
+        topSpawnable = true,
+        bottomSpawnable = true;
+
+        private static ArrayList<String> sidesSpawnable = new ArrayList<String>(4);
+
+    private static String
+        left = "left",
+        right = "right",
+        top = "top",
+        bottom = "bottom";
+
 
 
     public static Border b = new Border();
@@ -168,7 +184,12 @@ public class Window extends JFrame{
         double location = Math.random();
 
         //if the number is outside our JFrame keep looking until we find one that fits
-        while (side > .6) {
+        while ((side > .6) ||
+        ((side <= .15) && !topSpawnable) ||//TOP SIDE
+        (((side <= .3) && (side > .15)) && !leftSpawnable) ||//LEFT SIDE
+        (((side <= .45) && (side > .3)) && !bottomSpawnable) ||//BOTTOM SIDE
+        ((side >.45) && !rightSpawnable))//RIGHT SIDE
+        {
             side = Math.random();
         }
 
@@ -177,30 +198,64 @@ public class Window extends JFrame{
             location = Math.random();
         }
 
-        location = Math.round(location * 100);
+        location = Math.round(location * 1000);
 
         //TOP SIDE
-        if(side <= .15) {
+        if((side <= .15) && topSpawnable) {
+            topSpawnable = false;
+            sidesSpawnable.add(top);
             be.setLocation(0, (int)location);
+            System.out.println("TOP");
         }
 
         //LEFT SIDE
-        else if ((side <= .3) && (side > .15)) {
+        else if (((side <= .3) && (side > .15)) && leftSpawnable) {
+            leftSpawnable = false;
+            sidesSpawnable.add(left);
             be.setLocation((int)location, 0);
+            System.out.println("LEFT");
         }
 
         //BOTTOM SIDE
-        else if ((side <= .45) && (side > .3)) {
+        else if (((side <= .45) && (side > .3)) && bottomSpawnable) {
+            bottomSpawnable = false;
+            sidesSpawnable.add(bottom);
             be.setLocation((int)location, 600);
+            System.out.println("BOTTOM");
         }
 
         //RIGHT SIDE
-        else if (side >.45) {
+        else if ((side >.45) && rightSpawnable) {
+            rightSpawnable = false;
+            sidesSpawnable.add(right);
             be.setLocation(600, (int)location);
+            System.out.println("RIGHT");
         } else {
             System.out.println("randomizing the enemies location went wrong");
+            playing = false;
         }
 
+        resetSpawnableSides();
+
         be.setIsAlive(true);
+    }
+
+    private static void resetSpawnableSides() {
+
+        String removedSide;
+
+        if(sidesSpawnable.size() == 3) {
+            removedSide = sidesSpawnable.get(0);
+            sidesSpawnable.remove(0);
+            if(removedSide == "top") {
+                topSpawnable = true;
+            } else if(removedSide == "left") {
+                leftSpawnable = true;
+            } else if (removedSide == "bottom") {
+                bottomSpawnable = true;
+            } else if (removedSide == "right") {
+                rightSpawnable = true;
+            }
+        }
     }
 }
