@@ -10,7 +10,7 @@ public class Sword extends JLabel{
     private double x, y;
 
 
-    private double theta = -Math.PI/2;//what determines the starting orientation of the sword
+    private double theta = (-Math.PI/2 + (Math.PI * 2));//what determines the starting orientation of the sword
 
     public ArrayList<Point> swordCollisionPoints = new ArrayList<Point>(2);
 
@@ -104,6 +104,14 @@ public class Sword extends JLabel{
 
     public void changeTheta(double amountToAdd) {
         theta += amountToAdd;
+
+        //keeping theta between 0 and 2pi
+        if(theta < 0) {
+            theta += (Math.PI * 2);
+        }
+        if(theta > (Math.PI * 2)) {
+            theta -= (Math.PI * 2);
+        }
     }
 
 

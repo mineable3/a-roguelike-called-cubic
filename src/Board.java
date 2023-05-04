@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -26,9 +27,27 @@ public class Board extends JPanel {
 
 
     public Keyboard keyboard = new Keyboard();
-    public Player p = new Player(Constants.playerStartingX, Constants.playerStartingY);
+    public static Player p = new Player(Constants.playerStartingX, Constants.playerStartingY);
     public BasicEnemy be = new BasicEnemy();
 
+    private static boolean
+        leftSpawnable = true,
+        rightSpawnable = true,
+        topSpawnable = true,
+        bottomSpawnable = true;
+
+    private static ArrayList<String> sidesSpawnable = new ArrayList<String>(4);
+
+    private static String
+        left = "left",
+        right = "right",
+        top = "top",
+        bottom = "bottom";
+
+    public static String direction = "";
+
+
+        
     public Board() {
         this.add(keyboard);
         //this.add(be);
@@ -87,6 +106,199 @@ public class Board extends JPanel {
 
     public void paint() {//This is where the graphic is painted to the screen
         repaint();
+    }
+
+    
+    public void movePlayer() {
+
+
+        //If a single key is held down (cardinal directions)
+        if(keyboard.getWHeld() && ((!keyboard.getDHeld() && !keyboard.getAHeld()) || (keyboard.getDHeld() && keyboard.getAHeld())) && !keyboard.getSHeld()) {//W
+            p.changeY(-p.getPlayerSpeed());
+        }
+        if(keyboard.getSHeld() && ((!keyboard.getDHeld() && !keyboard.getAHeld()) || (keyboard.getDHeld() && keyboard.getAHeld())) && !keyboard.getWHeld()) {//S
+            p.changeY(p.getPlayerSpeed());
+        }
+        if(keyboard.getAHeld() && ((!keyboard.getWHeld() && !keyboard.getSHeld()) || (keyboard.getWHeld() && keyboard.getSHeld())) && !keyboard.getDHeld()) {//A
+            p.changeX(-p.getPlayerSpeed());
+        }
+        if(keyboard.getDHeld() && ((!keyboard.getWHeld() && !keyboard.getSHeld()) || (keyboard.getWHeld() && keyboard.getSHeld())) && !keyboard.getAHeld()) {//D
+            p.changeX(p.getPlayerSpeed());
+        }
+
+        //If two keys are held down (diagonals)
+        if(keyboard.getWHeld() && keyboard.getDHeld() && !keyboard.getAHeld() && !keyboard.getSHeld()) {
+            p.changeY((int)Math.round(-p.getPlayerSpeed() /*  * .71 include to dampen speed on diaganols*/));//W
+            p.changeX((int)Math.round(p.getPlayerSpeed() /*  * .71 include to dampen speed on diaganols*/));//D
+        }
+        if(keyboard.getWHeld() && keyboard.getAHeld() && !keyboard.getDHeld() && !keyboard.getSHeld()) {
+            p.changeY((int)Math.round(-p.getPlayerSpeed() /*  * .71 include to dampen speed on diaganols*/));//W
+            p.changeX((int)Math.round(-p.getPlayerSpeed() /*  * .71 include to dampen speed on diaganols*/));//A
+        }
+        if(keyboard.getSHeld() && keyboard.getDHeld() && !keyboard.getAHeld() && !keyboard.getWHeld()) {
+            p.changeY((int)Math.round(p.getPlayerSpeed() /*  * .71 include to dampen speed on diaganols*/));//S
+            p.changeX((int)Math.round(p.getPlayerSpeed() /*  * .71 include to dampen speed on diaganols*/));//D
+        }
+        if(keyboard.getSHeld() && keyboard.getAHeld() && !keyboard.getDHeld() && !keyboard.getWHeld()) {
+            p.changeY((int)Math.round(p.getPlayerSpeed() /*  * .71 include to dampen speed on diaganols*/));//S
+            p.changeX((int)Math.round(-p.getPlayerSpeed() /*  * .71 include to dampen speed on diaganols*/));//A
+        }
+
+    }
+
+
+
+    public void swingSword() {
+
+        //holding left
+        
+
+        //holding right
+        
+
+        if (!keyboard.getRightHeld() && !keyboard.getLeftHeld()) {
+            direction = "still";
+        }
+
+        if (direction == "cw") {
+            p.s.changeTheta(Math.PI/30);
+        } else if (direction == "ccw") {
+            p.s.changeTheta(-Math.PI/30);
+        } else if (direction == "still") {
+
+        }
+
+        p.s.orbit(p.getXValue(), p.getYValue());
+    }
+
+    //ORIGINAL METHOD
+    /*
+     * public void swingSword() {
+
+        //holding left
+        if(keyboard.getLeftHeld() && !keyboard.getRightHeld()) {
+            p.s.changeTheta(-Math.PI/30);
+        }
+
+        //holding right
+        if(keyboard.getRightHeld() && !keyboard.getLeftHeld()) {
+            p.s.changeTheta(Math.PI/30);
+        }
+
+        p.s.orbit(p.getXValue(), p.getYValue());
+    }
+     */
+
+
+
+
+    public void moveEnemy() {
+        int xDiff = p.getXValue() - be.getXValue();
+        int yDiff = p.getYValue() - be.getYValue();
+
+        int xHolder = (int) Math.round(xDiff * (be.getSpeed() / Math.sqrt((xDiff * xDiff) + (yDiff * yDiff))) + be.getXValue());
+        int yHolder = (int) Math.round(yDiff * (be.getSpeed() / Math.sqrt((xDiff * xDiff) + (yDiff * yDiff))) + be.getYValue());
+
+
+        be.setLocation(xHolder, yHolder);
+    }
+
+
+
+
+
+
+    public void playerEnemyCollision(/*Player p, BasicEnemy be*/) {
+
+        for(int i = p.s.swordCollisionPoints.size(); i > 0; i--) {
+
+            p.s.setCollisionPoints(p.getXValue(), p.getYValue());
+
+            if (be.getHitBox().contains(p.s.getSwordHitPoints(i - 1))) {
+                be.setIsAlive(false);
+                resetEnemy(be);
+            }
+        }
+    }
+
+
+
+    public static void resetEnemy(BasicEnemy be) {
+
+        //getting a new random number different from last time
+        double side = Math.random();
+        double location = Math.random();
+
+        //if the number is outside our JFrame keep looking until we find one that fits
+        while ((side > .6) ||
+        ((side <= .15) && !topSpawnable) ||//TOP SIDE
+        (((side <= .3) && (side > .15)) && !leftSpawnable) ||//LEFT SIDE
+        (((side <= .45) && (side > .3)) && !bottomSpawnable) ||//BOTTOM SIDE
+        ((side >.45) && !rightSpawnable))//RIGHT SIDE
+        {
+            side = Math.random();
+        }
+
+        //if the number is outside our JFrame keep looking until we find one that fits
+        while (location > .6) {
+            location = Math.random();
+        }
+
+        location = Math.round(location * 1000);
+
+        //TOP SIDE
+        if((side <= .15) && topSpawnable) {
+            topSpawnable = false;
+            sidesSpawnable.add(top);
+            be.setLocation(0, (int)location);
+        }
+
+        //LEFT SIDE
+        else if (((side <= .3) && (side > .15)) && leftSpawnable) {
+            leftSpawnable = false;
+            sidesSpawnable.add(left);
+            be.setLocation((int)location, 0);
+        }
+
+        //BOTTOM SIDE
+        else if (((side <= .45) && (side > .3)) && bottomSpawnable) {
+            bottomSpawnable = false;
+            sidesSpawnable.add(bottom);
+            be.setLocation((int)location, Constants.gameSize);
+        }
+
+        //RIGHT SIDE
+        else if ((side >.45) && rightSpawnable) {
+            rightSpawnable = false;
+            sidesSpawnable.add(right);
+            be.setLocation(Constants.gameSize, (int)location);
+        } else {
+            System.out.println("randomizing the enemies location went wrong");
+            Window.playing = false;
+        }
+
+        resetSpawnableSides();
+
+        be.setIsAlive(true);
+    }
+
+    private static void resetSpawnableSides() {
+
+        String removedSide;
+
+        if(sidesSpawnable.size() == 3) {
+            removedSide = sidesSpawnable.get(0);
+            sidesSpawnable.remove(0);
+            if(removedSide == "top") {
+                topSpawnable = true;
+            } else if(removedSide == "left") {
+                leftSpawnable = true;
+            } else if (removedSide == "bottom") {
+                bottomSpawnable = true;
+            } else if (removedSide == "right") {
+                rightSpawnable = true;
+            }
+        }
     }
 
 
