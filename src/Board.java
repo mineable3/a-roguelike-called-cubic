@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import src.enemies.BasicEnemy;
+import src.enemies.SpeedyEnemy;
 
 public class Board extends JPanel {
 
@@ -25,10 +26,14 @@ public class Board extends JPanel {
     private ImageIcon beImageIcon = new ImageIcon("assets/BasicEnemy.png");
     private Image beImage = beImageIcon.getImage();
 
+    //basic enemy(se) graphics
+    private ImageIcon seImageIcon = new ImageIcon("assets/SpeedyEnemy.png");
+    private Image seImage = seImageIcon.getImage();
 
     public Keyboard keyboard = new Keyboard();
     public static Player p = new Player(Constants.playerStartingX, Constants.playerStartingY);
     public BasicEnemy be = new BasicEnemy();
+    public SpeedyEnemy se = new SpeedyEnemy();
 
     private static boolean
         leftSpawnable = true,
@@ -50,7 +55,8 @@ public class Board extends JPanel {
         
     public Board() {
         this.add(keyboard);
-        //this.add(be);
+        this.add(be);
+        this.add(se);
         this.add(p);
         this.setBounds(0, 0, Constants.gameSize, Constants.gameSize);
         this.setBackground(new Color(54, 60, 79));
@@ -74,6 +80,9 @@ public class Board extends JPanel {
 
             //Basic enemy graphics
             g.drawImage(beImage, be.getXValue(), be.getYValue(), null);
+
+            //Speedy enemy graphics
+            g.drawImage(seImage, se.getXValue(), se.getYValue(), null);
 
             /* 
             draws the points that act as a hitbox for the sword
@@ -147,7 +156,8 @@ public class Board extends JPanel {
     }
 
 
-
+    //Shortest distance method
+    /*
     public void swingSword() {
 
         //holding left
@@ -169,11 +179,11 @@ public class Board extends JPanel {
         }
 
         p.s.orbit(p.getXValue(), p.getYValue());
-    }
+    }*/
 
     //ORIGINAL METHOD
-    /*
-     * public void swingSword() {
+    
+    public void swingSword() {
 
         //holding left
         if(keyboard.getLeftHeld() && !keyboard.getRightHeld()) {
@@ -187,12 +197,14 @@ public class Board extends JPanel {
 
         p.s.orbit(p.getXValue(), p.getYValue());
     }
-     */
+     
 
 
 
 
     public void moveEnemy() {
+        
+        //moving the Basic enemy
         int xDiff = p.getXValue() - be.getXValue();
         int yDiff = p.getYValue() - be.getYValue();
 
@@ -201,6 +213,18 @@ public class Board extends JPanel {
 
 
         be.setLocation(xHolder, yHolder);
+
+
+        //moving the Speedy enemy
+        xDiff = p.getXValue() - se.getXValue();
+        yDiff = p.getYValue() - se.getYValue();
+
+        xHolder = (int) Math.round(xDiff * (se.getSpeed() / Math.sqrt((xDiff * xDiff) + (yDiff * yDiff))) + se.getXValue());
+        yHolder = (int) Math.round(yDiff * (se.getSpeed() / Math.sqrt((xDiff * xDiff) + (yDiff * yDiff))) + se.getYValue());
+
+
+        se.setLocation(xHolder, yHolder);
+
     }
 
 
@@ -217,6 +241,11 @@ public class Board extends JPanel {
             if (be.getHitBox().contains(p.s.getSwordHitPoints(i - 1))) {
                 be.setIsAlive(false);
                 resetEnemy(be);
+            }
+
+            if (se.getHitBox().contains(p.s.getSwordHitPoints(i - 1))) {
+                se.setIsAlive(false);
+                resetEnemy(se);
             }
         }
     }
@@ -280,6 +309,65 @@ public class Board extends JPanel {
         resetSpawnableSides();
 
         be.setIsAlive(true);
+    }
+
+    public static void resetEnemy(SpeedyEnemy se) {
+
+        //getting a new random number different from last time
+        double side = Math.random();
+        double location = Math.random();
+
+        //if the number is outside our JFrame keep looking until we find one that fits
+        while ((side > .6) ||
+        ((side <= .15) && !topSpawnable) ||//TOP SIDE
+        (((side <= .3) && (side > .15)) && !leftSpawnable) ||//LEFT SIDE
+        (((side <= .45) && (side > .3)) && !bottomSpawnable) ||//BOTTOM SIDE
+        ((side >.45) && !rightSpawnable))//RIGHT SIDE
+        {
+            side = Math.random();
+        }
+
+        //if the number is outside our JFrame keep looking until we find one that fits
+        while (location > .6) {
+            location = Math.random();
+        }
+
+        location = Math.round(location * 1000);
+
+        //TOP SIDE
+        if((side <= .15) && topSpawnable) {
+            topSpawnable = false;
+            sidesSpawnable.add(top);
+            se.setLocation(0, (int)location);
+        }
+
+        //LEFT SIDE
+        else if (((side <= .3) && (side > .15)) && leftSpawnable) {
+            leftSpawnable = false;
+            sidesSpawnable.add(left);
+            se.setLocation((int)location, 0);
+        }
+
+        //BOTTOM SIDE
+        else if (((side <= .45) && (side > .3)) && bottomSpawnable) {
+            bottomSpawnable = false;
+            sidesSpawnable.add(bottom);
+            se.setLocation((int)location, Constants.gameSize);
+        }
+
+        //RIGHT SIDE
+        else if ((side >.45) && rightSpawnable) {
+            rightSpawnable = false;
+            sidesSpawnable.add(right);
+            se.setLocation(Constants.gameSize, (int)location);
+        } else {
+            System.out.println("randomizing the enemies location went wrong");
+            Window.playing = false;
+        }
+
+        resetSpawnableSides();
+
+        se.setIsAlive(true);
     }
 
     private static void resetSpawnableSides() {

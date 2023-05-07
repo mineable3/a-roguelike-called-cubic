@@ -6,5 +6,4 @@ public class Main {
         w.gameLoop();
     }
 
-    //TODO arrow key moves sword shortest distance to the direction of the key
 }
