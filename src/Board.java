@@ -6,7 +6,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -35,19 +34,9 @@ public class Board extends JPanel {
     public BasicEnemy be = new BasicEnemy();
     public SpeedyEnemy se = new SpeedyEnemy();
 
-    private static boolean
-        leftSpawnable = true,
-        rightSpawnable = true,
-        topSpawnable = true,
-        bottomSpawnable = true;
+    
 
-    private static ArrayList<String> sidesSpawnable = new ArrayList<String>(4);
-
-    private static String
-        left = "left",
-        right = "right",
-        top = "top",
-        bottom = "bottom";
+    
 
     public static String direction = "";
 
@@ -224,7 +213,6 @@ public class Board extends JPanel {
 
 
         se.setLocation(xHolder, yHolder);
-
     }
 
 
@@ -232,162 +220,40 @@ public class Board extends JPanel {
 
 
 
-    public void playerEnemyCollision(/*Player p, BasicEnemy be*/) {
+    public void playerEnemyCollision() {
 
+
+        //Sword collision with the enemies
         for(int i = p.s.swordCollisionPoints.size(); i > 0; i--) {
 
             p.s.setCollisionPoints(p.getXValue(), p.getYValue());
 
             if (be.getHitBox().contains(p.s.getSwordHitPoints(i - 1))) {
                 be.setIsAlive(false);
-                resetEnemy(be);
+                be.resetEnemy();
             }
 
             if (se.getHitBox().contains(p.s.getSwordHitPoints(i - 1))) {
                 se.setIsAlive(false);
-                resetEnemy(se);
+                se.resetEnemy();
+            }
+        }
+
+
+
+        //Player collision with the enemies
+        for(int i = p.playerCollisionPoints.size(); i > 0; i--) {
+
+            p.s.setCollisionPoints(p.getXValue(), p.getYValue());
+
+            if (be.getHitBox().contains(p.getPlayerHitPoints(i - 1))) {
+                Window.playing = false;
+            }
+
+            if (se.getHitBox().contains(p.getPlayerHitPoints(i - 1))) {
+                Window.playing = false;
             }
         }
     }
-
-
-
-    public static void resetEnemy(BasicEnemy be) {
-
-        //getting a new random number different from last time
-        double side = Math.random();
-        double location = Math.random();
-
-        //if the number is outside our JFrame keep looking until we find one that fits
-        while ((side > .6) ||
-        ((side <= .15) && !topSpawnable) ||//TOP SIDE
-        (((side <= .3) && (side > .15)) && !leftSpawnable) ||//LEFT SIDE
-        (((side <= .45) && (side > .3)) && !bottomSpawnable) ||//BOTTOM SIDE
-        ((side >.45) && !rightSpawnable))//RIGHT SIDE
-        {
-            side = Math.random();
-        }
-
-        //if the number is outside our JFrame keep looking until we find one that fits
-        while (location > .6) {
-            location = Math.random();
-        }
-
-        location = Math.round(location * 1000);
-
-        //TOP SIDE
-        if((side <= .15) && topSpawnable) {
-            topSpawnable = false;
-            sidesSpawnable.add(top);
-            be.setLocation(0, (int)location);
-        }
-
-        //LEFT SIDE
-        else if (((side <= .3) && (side > .15)) && leftSpawnable) {
-            leftSpawnable = false;
-            sidesSpawnable.add(left);
-            be.setLocation((int)location, 0);
-        }
-
-        //BOTTOM SIDE
-        else if (((side <= .45) && (side > .3)) && bottomSpawnable) {
-            bottomSpawnable = false;
-            sidesSpawnable.add(bottom);
-            be.setLocation((int)location, Constants.gameSize);
-        }
-
-        //RIGHT SIDE
-        else if ((side >.45) && rightSpawnable) {
-            rightSpawnable = false;
-            sidesSpawnable.add(right);
-            be.setLocation(Constants.gameSize, (int)location);
-        } else {
-            System.out.println("randomizing the enemies location went wrong");
-            Window.playing = false;
-        }
-
-        resetSpawnableSides();
-
-        be.setIsAlive(true);
-    }
-
-    public static void resetEnemy(SpeedyEnemy se) {
-
-        //getting a new random number different from last time
-        double side = Math.random();
-        double location = Math.random();
-
-        //if the number is outside our JFrame keep looking until we find one that fits
-        while ((side > .6) ||
-        ((side <= .15) && !topSpawnable) ||//TOP SIDE
-        (((side <= .3) && (side > .15)) && !leftSpawnable) ||//LEFT SIDE
-        (((side <= .45) && (side > .3)) && !bottomSpawnable) ||//BOTTOM SIDE
-        ((side >.45) && !rightSpawnable))//RIGHT SIDE
-        {
-            side = Math.random();
-        }
-
-        //if the number is outside our JFrame keep looking until we find one that fits
-        while (location > .6) {
-            location = Math.random();
-        }
-
-        location = Math.round(location * 1000);
-
-        //TOP SIDE
-        if((side <= .15) && topSpawnable) {
-            topSpawnable = false;
-            sidesSpawnable.add(top);
-            se.setLocation(0, (int)location);
-        }
-
-        //LEFT SIDE
-        else if (((side <= .3) && (side > .15)) && leftSpawnable) {
-            leftSpawnable = false;
-            sidesSpawnable.add(left);
-            se.setLocation((int)location, 0);
-        }
-
-        //BOTTOM SIDE
-        else if (((side <= .45) && (side > .3)) && bottomSpawnable) {
-            bottomSpawnable = false;
-            sidesSpawnable.add(bottom);
-            se.setLocation((int)location, Constants.gameSize);
-        }
-
-        //RIGHT SIDE
-        else if ((side >.45) && rightSpawnable) {
-            rightSpawnable = false;
-            sidesSpawnable.add(right);
-            se.setLocation(Constants.gameSize, (int)location);
-        } else {
-            System.out.println("randomizing the enemies location went wrong");
-            Window.playing = false;
-        }
-
-        resetSpawnableSides();
-
-        se.setIsAlive(true);
-    }
-
-    private static void resetSpawnableSides() {
-
-        String removedSide;
-
-        if(sidesSpawnable.size() == 3) {
-            removedSide = sidesSpawnable.get(0);
-            sidesSpawnable.remove(0);
-            if(removedSide == "top") {
-                topSpawnable = true;
-            } else if(removedSide == "left") {
-                leftSpawnable = true;
-            } else if (removedSide == "bottom") {
-                bottomSpawnable = true;
-            } else if (removedSide == "right") {
-                rightSpawnable = true;
-            }
-        }
-    }
-
 
 }

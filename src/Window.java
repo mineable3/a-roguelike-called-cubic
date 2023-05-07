@@ -1,5 +1,7 @@
 package src;
+import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Point;
@@ -41,8 +43,10 @@ public class Window extends JFrame{
             cursorImg, new Point(0, 0), "blank cursor");
         // Set the blank cursor to the JFrame.
         this.getContentPane().setCursor(blankCursor);
-                this.setUndecorated(true);
-                this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        //Makes the game full screen
+        this.setUndecorated(true);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
 
 
@@ -129,6 +133,8 @@ public class Window extends JFrame{
 
             sleeep(20);
         }
+
+        gameOver();
     }
 
 
@@ -141,6 +147,22 @@ public class Window extends JFrame{
 
 
 
+    public void gameOver() {
+        this.remove(board);
+
+
+        JComponent gameOverScreen = new JComponent() {
+            @Override
+            public void paint(Graphics g) {
+                super.paint(g);
+
+                g.setColor(new Color(255, 0, 0));
+                g.fillRect(0, 0, Constants.frameWidth, Constants.frameHeight);
+            }
+        };
+        board.add(gameOverScreen);
+        System.out.println("game over :(");
+    }
 
 
 }

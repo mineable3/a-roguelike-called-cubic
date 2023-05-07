@@ -6,11 +6,9 @@ public interface Enemy {
 
     Rectangle getBounds();//the hitbox of the enemy
 
-    void setHP(int newHP);//setting the HP
-
-    void changeHP(int hpToAdd);//adding/subtracting HP
-
     int getSpeed();//returns the speed of the enemy
 
     void setSpeed(int inSpeed);
+
+    void resetEnemy();//spawns the enemy on a random side
 }
