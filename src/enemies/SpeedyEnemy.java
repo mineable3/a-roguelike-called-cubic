@@ -11,7 +11,7 @@ import src.Window;
 
 public class SpeedyEnemy extends JLabel implements Enemy{
 
-    private int x, y;
+    private int x = 600, y = 600;
     private int width = 30, height = 30;
 
     private int speed = 4;

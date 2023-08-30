@@ -11,7 +11,7 @@ import src.Window;
 
 public class BasicEnemy extends JLabel implements Enemy{
 
-    private int x, y;
+    private int x = 0, y = 0;
     private int width = 20, height = 20;
 
     private int speed = 2;
@@ -37,8 +37,9 @@ public class BasicEnemy extends JLabel implements Enemy{
 
 
 
-    public BasicEnemy() {
-        this.setLocation(x, y);
+    public BasicEnemy(int x, int y) {
+        this.x = x;
+        this.y = y;
         this.setBounds(x, y, 20, 20);
         this.setOpaque(false);
     }

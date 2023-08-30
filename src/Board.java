@@ -31,7 +31,8 @@ public class Board extends JPanel {
 
     public Keyboard keyboard = new Keyboard();
     public static Player p = new Player(Constants.playerStartingX, Constants.playerStartingY);
-    public BasicEnemy be = new BasicEnemy();
+    public BasicEnemy be = new BasicEnemy(0,0);
+    public BasicEnemy beTwo = new BasicEnemy(0,0);
     public SpeedyEnemy se = new SpeedyEnemy();
 
     
@@ -45,6 +46,7 @@ public class Board extends JPanel {
     public Board() {
         this.add(keyboard);
         this.add(be);
+        this.add(beTwo);
         this.add(se);
         this.add(p);
         this.setBounds(0, 0, Constants.gameSize, Constants.gameSize);
@@ -69,6 +71,7 @@ public class Board extends JPanel {
 
             //Basic enemy graphics
             g.drawImage(beImage, be.getXValue(), be.getYValue(), null);
+            g.drawImage(beImage, beTwo.getXValue(), beTwo.getYValue(), null);
 
             //Speedy enemy graphics
             g.drawImage(seImage, se.getXValue(), se.getYValue(), null);
@@ -203,6 +206,17 @@ public class Board extends JPanel {
 
         be.setLocation(xHolder, yHolder);
 
+        /* 
+        xDiff = p.getXValue() - beTwo.getXValue();
+        yDiff = p.getYValue() - beTwo.getYValue();
+
+        xHolder = (int) Math.round(xDiff * (beTwo.getSpeed() / Math.sqrt((xDiff * xDiff) + (yDiff * yDiff))) + beTwo.getXValue());
+        yHolder = (int) Math.round(yDiff * (beTwo.getSpeed() / Math.sqrt((xDiff * xDiff) + (yDiff * yDiff))) + beTwo.getYValue());
+
+
+        beTwo.setLocation(xHolder, yHolder);
+        */
+
 
         //moving the Speedy enemy
         xDiff = p.getXValue() - se.getXValue();
@@ -231,6 +245,11 @@ public class Board extends JPanel {
             if (be.getHitBox().contains(p.s.getSwordHitPoints(i - 1))) {
                 be.setIsAlive(false);
                 be.resetEnemy();
+            }
+
+            if (beTwo.getHitBox().contains(p.s.getSwordHitPoints(i - 1))) {
+                beTwo.setIsAlive(false);
+                beTwo.resetEnemy();
             }
 
             if (se.getHitBox().contains(p.s.getSwordHitPoints(i - 1))) {

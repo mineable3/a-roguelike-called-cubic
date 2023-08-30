@@ -3,8 +3,8 @@ package src;
 public class Constants {
     
 
-    public static final int playerStartingX = 100;
-    public static final int playerStartingY = 100;
+    public static final int playerStartingX = 500;
+    public static final int playerStartingY = 500;
 
 
     public static final int frameWidth = 1366;
