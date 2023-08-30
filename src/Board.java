@@ -206,7 +206,7 @@ public class Board extends JPanel {
 
         be.setLocation(xHolder, yHolder);
 
-        /* 
+        
         xDiff = p.getXValue() - beTwo.getXValue();
         yDiff = p.getYValue() - beTwo.getYValue();
 
@@ -215,7 +215,7 @@ public class Board extends JPanel {
 
 
         beTwo.setLocation(xHolder, yHolder);
-        */
+        
 
 
         //moving the Speedy enemy
