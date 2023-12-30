@@ -1,7 +1,6 @@
 package src;
 import java.awt.Point;
 import java.util.ArrayList;
-
 import javax.swing.*;
 
 public class Sword extends JLabel{
